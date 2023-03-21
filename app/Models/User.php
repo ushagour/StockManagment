@@ -12,25 +12,28 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $dates = [
+        'updated_at',
+        'created_at',
+        'deleted_at',
+        'email_verified_at',
+    ];
+
+    protected $fillable = [
+        'name',
+        'email',
+        'team_id',
+        'password',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'remember_token',
+        'email_verified_at',
     ];
 
     /**
@@ -41,4 +44,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected function serializeDate(DateTimeI3nterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+
+    }
 }
