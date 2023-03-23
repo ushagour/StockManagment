@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
+use \DateTimeInterface;
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
 
     protected $hidden = [
         'password',
@@ -50,4 +51,19 @@ class User extends Authenticatable
         return $date->format('Y-m-d H:i:s');
 
     }
+     protected function stocks()
+    {
+        return $this->hasMany(Stock::class);
+
+    }
+     protected function team()
+    {
+        return $this->hasOne(team::class);
+
+    }
+    public function roles()
+    {
+        return $is->belongsToMany(Role::class);
+
+    } 
 }
