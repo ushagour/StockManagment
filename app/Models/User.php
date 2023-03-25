@@ -36,6 +36,8 @@ class User extends Authenticatable
         'remember_token',
         'email_verified_at',
     ];
+    
+   
 
     /**
      * The attributes that should be cast.
@@ -46,7 +48,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected function serializeDate(DateTimeI3nterface $date)
+    protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
 
@@ -63,7 +65,7 @@ class User extends Authenticatable
     }
     public function roles()
     {
-        return $is->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class);
 
     } 
 }
