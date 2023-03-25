@@ -16,4 +16,16 @@ class CreateTeamsTable extends Migration
         });
 
     }
-}
+    
+     /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('teams');
+        Schema::enableForeignKeyConstraints();
+    }
+    }

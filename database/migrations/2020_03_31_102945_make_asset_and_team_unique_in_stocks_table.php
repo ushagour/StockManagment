@@ -29,5 +29,7 @@ class MakeAssetAndTeamUniqueInStocksTable extends Migration
     public function down(): void
     {
         //
+        Schema::dropIfExists('stocks');
+
     }
 }
