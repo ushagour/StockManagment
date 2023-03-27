@@ -14,8 +14,11 @@
 	<meta property="og:image" content="https://fillow.dexignlab.com/xhtml/social-image.png">
 	<meta name="format-detection" content="telephone=no">
 	
-	<!-- PAGE TITLE HERE -->
-	<title>Admin Dashboard</title>
+       <!-- CSRF Token -->
+       <meta name="csrf-token" content="{{ csrf_token() }}">
+
+       <!-- PAGE TITLE HERE -->
+       <title>{{ config('app.name') }}</title>
 	
 	<!-- FAVICONS ICON -->
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
@@ -35,33 +38,51 @@
 									<div class="text-center mb-3">
 										<a href="index.html"><img src="images/logo-full.png" alt=""></a>
 									</div>
-                                    <h4 class="text-center mb-4">Sign in your account</h4>
-                                    <form action="index.html">
+                                    <h4 class="text-center mb-4">{{ __('Login') }}</h4>
+                                    <form method="POST" action="{{ route('login') }}">
+                                        @csrf
                                         <div class="mb-3">
                                             <label class="mb-1"><strong>Email</strong></label>
-                                            <input type="email" class="form-control" value="hello@example.com">
+                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                         </div>
                                         <div class="mb-3">
                                             <label class="mb-1"><strong>Password</strong></label>
-                                            <input type="password" class="form-control" value="Password">
-                                        </div>
+                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+
+                                            @error('password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror                                        </div>
                                         <div class="row d-flex justify-content-between mt-4 mb-2">
                                             <div class="mb-3">
                                                <div class="form-check custom-checkbox ms-1">
 													<input type="checkbox" class="form-check-input" id="basic_checkbox_1">
-													<label class="form-check-label" for="basic_checkbox_1">Remember my preference</label>
+													<label class="form-check-label" for="basic_checkbox_1">{{ __('Remember Me') }}
+                                                    </label>
 												</div>
                                             </div>
                                             <div class="mb-3">
-                                                <a href="page-forgot-password.html">Forgot Password?</a>
+                                                @if (Route::has('password.request'))
+                                                <a  href="{{ route('password.request') }}">
+                                                    {{ __('Forgot Your Password?') }}
+                                                </a>
+                                            @endif
                                             </div>
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-primary btn-block">Sign Me In</button>
+                                              <button type="submit" class="btn btn-primary btn-block">
+                                                  {{ __('Login') }}
+                                                 </button>
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p>Don't have an account? <a class="text-primary" href="page-register.html">Sign up</a></p>
+                                        <p>Don't have an account? <a class="text-primary" href="{{ route('register') }}"> {{ __('Register') }}</a></p>
                                     </div>
                                 </div>
                             </div>
