@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Asset;
 use Illuminate\Http\Request;
 
-class AssetsController extends Controller
+class AssetController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,6 +15,11 @@ class AssetsController extends Controller
     public function index()
     {
         //
+        // abort_if(Gate::denies('asset_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $assets = Asset::all();
+
+        return view('dashboard.assets.index', compact('assets'));
     }
 
     /**
@@ -25,6 +30,8 @@ class AssetsController extends Controller
     public function create()
     {
         //
+        return view('dashboard.assets.create');
+
     }
 
     /**
@@ -35,7 +42,12 @@ class AssetsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$request->all() return all fileds entred by the user 
+
+
+        // dd($request->all());
+        $asset = Asset::create($request->all());
+        return redirect()->route('asset.index');
     }
 
     /**
@@ -47,6 +59,8 @@ class AssetsController extends Controller
     public function show(Asset $asset)
     {
         //
+   
+        return view('dashboard.assets.show', compact('asset'));
     }
 
     /**
@@ -58,6 +72,8 @@ class AssetsController extends Controller
     public function edit(Asset $asset)
     {
         //
+        return view('dashboard.assets.edit', compact('asset'));
+
     }
 
     /**
@@ -69,7 +85,9 @@ class AssetsController extends Controller
      */
     public function update(Request $request, Asset $asset)
     {
-        //
+        // this is equal to update asset set (req) where id = assets ->id
+         $asset->update($request->all());
+        return redirect()->route('asset.index');
     }
 
     /**
@@ -81,5 +99,10 @@ class AssetsController extends Controller
     public function destroy(Asset $asset)
     {
         //
+        
+        $asset->delete();
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);      
     }
 }

@@ -5,7 +5,7 @@
             <div class="dlabnav-scroll">
 				<ul class="metismenu" id="menu">
                  
-					<li><a href="widget-basic.html" class="" aria-expanded="false">
+					<li><a href="{{route("asset.index")}}" class="" aria-expanded="false">
 					<i class="fa-fw fas fa-cogs nav-icon"></i>
 						<span class="nav-text">Assets</span>
 					</a>
