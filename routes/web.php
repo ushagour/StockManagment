@@ -18,5 +18,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::redirect('/', '/login');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/profile', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/profile', [App\Http\Controllers\HomeController::class, 'index'])->name('profile');
 Route::resource('user', App\Http\Controllers\UserController::class);
+Route::resource('asset', App\Http\Controllers\AssetController::class);

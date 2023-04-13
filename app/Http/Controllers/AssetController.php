@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use Illuminate\Http\Request;
+use Session;
+use Illuminate\Support\Facades\Redirect;
+
 
 class AssetController extends Controller
 {
@@ -47,7 +50,8 @@ class AssetController extends Controller
 
         // dd($request->all());
         $asset = Asset::create($request->all());
-        return redirect()->route('asset.index');
+        return redirect()->route('asset.index')->with('success','asset has been updated successfully.');
+
     }
 
     /**
@@ -87,7 +91,9 @@ class AssetController extends Controller
     {
         // this is equal to update asset set (req) where id = assets ->id
          $asset->update($request->all());
-        return redirect()->route('asset.index');
+         
+
+         return redirect()->route('asset.index')->with('warning','asset has been updated successfully.');
     }
 
     /**
@@ -101,8 +107,8 @@ class AssetController extends Controller
         //
         
         $asset->delete();
-        return response()->json([
-            'success' => 'Record deleted successfully!'
-        ]);      
+        return redirect()->route('asset.index')->with('danger','asset has been deleted successfully.');
+
+
     }
 }

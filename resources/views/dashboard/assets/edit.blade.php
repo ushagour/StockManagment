@@ -10,18 +10,19 @@
         <div class="content-body">
             <!-- row -->
 			<div class="container-fluid">
-				<div class="col-xl-12 col-lg-12 col-sm-12">
+				<div class="col-xl-12 col-lg-8 col-sm-12">
                     <div class="card">
                         <div class="card-header border-0 pb-0">
                             <a class="btn btn-default" href="{{ route('asset.index') }}">
-                                {{ trans('global.back_to_list') }}
+                               back to list
                             </a>
                         </div>
                         <div class="card-body pb-0">
                             <div class="basic-form">
 
 
-                                <form method="POST" action="{{ route("asset.store") }}" enctype="multipart/form-data">
+                                <form method="POST" action="{{ route("asset.update", [$asset->id]) }}" enctype="multipart/form-data">
+                                    @method('PUT')
                                     @csrf
                                     <div class="form-group">
                                         <label class="required" for="name">{{ trans('cruds.asset.fields.name') }}</label>
@@ -54,8 +55,8 @@
                                         <span class="help-block"></span>
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-danger" type="submit">
-                                            {{ trans('global.save') }}
+                                        <button class="btn btn-danger m-2" type="submit">
+                                           save
                                         </button>
                                     </div>
                                 </form>

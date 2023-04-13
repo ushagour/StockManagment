@@ -9,9 +9,6 @@
 	<meta name="author" content="">
 	<meta name="robots" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Fillow : Fillow Saas Admin  Bootstrap 5 Template">
-	<meta property="og:title" content="Fillow : Fillow Saas Admin  Bootstrap 5 Template">
-	<meta property="og:description" content="Fillow : Fillow Saas Admin  Bootstrap 5 Template">
 	<meta property="og:image" content="https:/fillow.dexignlab.com/xhtml/social-image.png">
 	<meta name="format-detection" content="telephone=no">
 	
@@ -19,10 +16,8 @@
     <title>{{ config('app.name', 'StockManagment') }}</title>
 	
 	<!-- FAVICONS ICON -->
-	<link rel="shortcut icon" type="image/png" href="images/favicon.png">
+	{{-- <link rel="shortcut icon" type="image/png" href="images/favicon.png"> --}}
 	<link href="{{ asset('assets/vendor/jquery-nice-select/css/nice-select.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/vendor/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
-	<link rel="stylesheet" href="{{ asset('assets/vendor/nouislider/nouislider.min.css') }}">
 	
 	 <!-- Datatable -->
 	 <link href="{{ asset('assets/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
@@ -586,7 +581,7 @@
                     <div class="collapse navbar-collapse justify-content-between">
                         <div class="header-left">
 							<div class="dashboard_bar">
-                                Dashboard
+                                {{-- Dashboard --}}
                             </div>
                         </div>
                         <ul class="navbar-nav header-right">
@@ -611,7 +606,7 @@
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2">
-														<img alt="image" width="50" src="images/avatar/1.jpg">
+														<img alt="image" width="50" src="{{asset("assets/images/avatar/1.jpg")}}">
 													</div>
 													<div class="media-body">
 														<h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -782,7 +777,7 @@
     <script src="{{ asset('assets/js/custom.min.js')}}"></script>
 	<script src="{{ asset('assets/js/dlabnav-init.js')}}"></script>
 	<script src="{{ asset('assets/js/demo.js')}}"></script>
-    <script src="{{ asset('assets/js/styleSwitcher.js')}}"></script>
+    {{-- <script src="{{ asset('assets/js/styleSwitcher.js')}}"></script> --}}
 
 
 	@yield("more_script")
