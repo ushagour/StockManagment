@@ -9,14 +9,14 @@
             <div>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active"><a href="{{route("home")}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">liste of users</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">liste of roles</a></li>
                 </ol>
             </div>
          
             
             
             <div class="float-right">
-              <a style="float: right;" href="{{route("users.create")}}" class="btn btn-primary btn-rounded  mb-2"> add new</a>
+              <a style="float: right;" href="{{route("roles.create")}}" class="btn btn-primary btn-rounded  mb-2"> add new</a>
           </div>
         </div>
         
@@ -66,16 +66,20 @@
               
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example5" class="display" style="min-width: 845px">
+                            <table class=" table table-bordered table-striped table-hover datatable datatable-Role">
                                 <thead>
                                     <tr>
                                         <th width="10">
                 
-                                            id
                                         </th>
-                               
                                         <th>
-                                       name
+                                            {{ trans('cruds.role.fields.id') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.role.fields.title') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.role.fields.permissions') }}
                                         </th>
                                         <th>
                                             &nbsp;
@@ -83,42 +87,42 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($users as $key => $user)
-                                        <tr>
-                      
+                                    @foreach($roles as $key => $role)
+                                        <tr data-entry-id="{{ $role->id }}">
                                             <td>
-                                                {{ $user->id ?? '' }}
+                
                                             </td>
                                             <td>
-                                                {{ $user->name ?? '' }}
+                                                {{ $role->id ?? '' }}
                                             </td>
                                             <td>
-                                  
-                                                    <a class="btn btn-xs btn-primary" href="{{ route('users.show', $user->id) }}">
-                                                  view
+                                                {{ $role->title ?? '' }}
+                                            </td>
+                                            <td>
+                                                @foreach($role->permissions as $key => $item)
+                                                    <span class="badge badge-info">{{ $item->title }}</span>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @can('role_show')
+                                                    <a class="btn btn-xs btn-primary" href="{{ route('roles.show', $role->id) }}">
+                                                        {{ trans('global.view') }}
                                                     </a>
-                                     
+                                                @endcan
                 
-                                        
-                                                    <a class="btn btn-xs btn-info" href="{{ route('users.edit', $user->id) }}">
-                                                     edit
+                                                @can('role_edit')
+                                                    <a class="btn btn-xs btn-info" href="{{ route('roles.edit', $role->id) }}">
+                                                        {{ trans('global.edit') }}
                                                     </a>
-                                       
+                                                @endcan
                 
-                                    
-                                         
-                                                    <a class="btn btn-xs btn-danger" href="{{ route('users.destroy', $user->id) }}" onclick="event.preventDefault();
-                                                        DeleteMe()">
-                                                                                                 <span> Delete</span>
-       
-                                           
-                                        </a>
-       
-                                        <form id="delete-form"  action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-none">
-                                           <input name="_method" type="hidden" value="DELETE">
-                                            @csrf
-                                        </form>
-
+                                                @can('role_delete')
+                                                    <form action="{{ route('roles.destroy', $role->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                                    </form>
+                                                @endcan
                 
                                             </td>
                 

@@ -9,14 +9,14 @@
             <div>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item active"><a href="{{route("home")}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="javascript:void(0)">liste of users</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">liste of permissions</a></li>
                 </ol>
             </div>
          
             
             
             <div class="float-right">
-              <a style="float: right;" href="{{route("users.create")}}" class="btn btn-primary btn-rounded  mb-2"> add new</a>
+              <a style="float: right;" href="{{route("permissions.create")}}" class="btn btn-primary btn-rounded  mb-2"> add new</a>
           </div>
         </div>
         
@@ -67,64 +67,62 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="example5" class="display" style="min-width: 845px">
-                                <thead>
-                                    <tr>
-                                        <th width="10">
-                
-                                            id
-                                        </th>
-                               
-                                        <th>
-                                       name
-                                        </th>
-                                        <th>
-                                            &nbsp;
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($users as $key => $user)
+                                {{-- <table class=" table table-bordered table-striped table-hover datatable datatable-Permission"> --}}
+                                    <thead>
                                         <tr>
-                      
-                                            <td>
-                                                {{ $user->id ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ $user->name ?? '' }}
-                                            </td>
-                                            <td>
-                                  
-                                                    <a class="btn btn-xs btn-primary" href="{{ route('users.show', $user->id) }}">
-                                                  view
-                                                    </a>
-                                     
-                
-                                        
-                                                    <a class="btn btn-xs btn-info" href="{{ route('users.edit', $user->id) }}">
-                                                     edit
-                                                    </a>
-                                       
-                
-                                    
-                                         
-                                                    <a class="btn btn-xs btn-danger" href="{{ route('users.destroy', $user->id) }}" onclick="event.preventDefault();
-                                                        DeleteMe()">
-                                                                                                 <span> Delete</span>
-       
-                                           
-                                        </a>
-       
-                                        <form id="delete-form"  action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-none">
-                                           <input name="_method" type="hidden" value="DELETE">
-                                            @csrf
-                                        </form>
-
-                
-                                            </td>
-                
+                                            <th width="10">
+                    
+                                            </th>
+                                            <th>
+                                                {{ trans('cruds.permission.fields.id') }}
+                                            </th>
+                                            <th>
+                                                {{ trans('cruds.permission.fields.title') }}
+                                            </th>
+                                            <th>
+                                                &nbsp;
+                                            </th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($permissions as $key => $permission)
+                                            <tr data-entry-id="{{ $permission->id }}">
+                                                <td>
+                    
+                                                </td>
+                                                <td>
+                                                    {{ $permission->id ?? '' }}
+                                                </td>
+                                                <td>
+                                                    {{ $permission->title ?? '' }}
+                                                </td>
+                                                <td>
+                                                    @can('permission_show')
+                                                        <a class="btn btn-xs btn-primary" href="{{ route('permissions.show', $permission->id) }}">
+                                                            {{ trans('global.view') }}
+                                                        </a>
+                                                    @endcan
+                    
+                                                    @can('permission_edit')
+                                                        <a class="btn btn-xs btn-info" href="{{ route('permissions.edit', $permission->id) }}">
+                                                            {{ trans('global.edit') }}
+                                                        </a>
+                                                    @endcan
+                    
+                                                    @can('permission_delete')
+                                                        <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                            <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                                        </form>
+                                                    @endcan
+                    
+                                                </td>
+                    
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                           
                             </table>
                         </div>
                     </div>
