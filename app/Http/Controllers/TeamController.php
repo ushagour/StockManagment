@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Asset;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 
-
-class AssetController extends Controller
+class TeamController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +18,9 @@ class AssetController extends Controller
     {
         //
 
-        $assets = Asset::all();
+        $teams = Team::all();
 
-        return view('dashboard.assets.index', compact('assets'));
+        return view('dashboard.teams.index', compact('teams'));
     }
 
     /**
@@ -32,7 +31,7 @@ class AssetController extends Controller
     public function create()
     {
         //
-        return view('dashboard.assets.create');
+        return view('dashboard.teams.create');
 
     }
 
@@ -48,34 +47,34 @@ class AssetController extends Controller
 
 
         // dd($request->all());
-        $asset = Asset::create($request->all());
-        return redirect()->route('asset.index')->with('success','asset has been updated successfully.');
+        $team = Team::create($request->all());
+        return redirect()->route('team.index')->with('success','team has been updated successfully.');
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Asset  $asset
+     * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function show(Asset $asset)
+    public function show(Team $team)
     {
         //
    
-        return view('dashboard.assets.show', compact('asset'));
+        return view('dashboard.teams.show', compact('team'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Asset  $asset
+     * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function edit(Asset $asset)
+    public function edit(Team $team)
     {
         //
-        return view('dashboard.assets.edit', compact('asset'));
+        return view('dashboard.teams.edit', compact('team'));
 
     }
 
@@ -83,30 +82,30 @@ class AssetController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Asset  $asset
+     * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Asset $asset)
+    public function update(Request $request, Team $team)
     {
-        // this is equal to update asset set (req) where id = assets ->id
-         $asset->update($request->all());
+        // this is equal to update team set (req) where id = teams ->id
+         $team->update($request->all());
          
 
-         return redirect()->route('asset.index')->with('warning','asset has been updated successfully.');
+         return redirect()->route('team.index')->with('warning','team has been updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Asset  $asset
+     * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Asset $asset)
+    public function destroy(Team $team)
     {
         //
         
-        $asset->delete();
-        return redirect()->route('asset.index')->with('danger','asset has been deleted successfully.');
+        $team->delete();
+        return redirect()->route('team.index')->with('danger','team has been deleted successfully.');
 
 
     }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stock;
+use App\Models\Asset;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class StockController extends Controller
@@ -15,6 +17,8 @@ class StockController extends Controller
     public function index()
     {
         //
+        $stocks = Stock::all();
+        return view('dashboard.stocks.index', compact('stocks'));
     }
 
     /**
@@ -25,6 +29,10 @@ class StockController extends Controller
     public function create()
     {
         //
+        $assets = Asset::all()->pluck('name', 'id')->prepend("pleaseSelect", '');
+        $teams = Team::all()->pluck('name', 'id')->prepend("pleaseSelect", '');
+
+        return view('dashboard.stocks.create', compact(['assets','teams']));
     }
 
     /**
@@ -36,6 +44,10 @@ class StockController extends Controller
     public function store(Request $request)
     {
         //
+        $stock = Stock::create($request->all());
+
+        return redirect()->route('stock.index')->with('success','asset has been updated successfully.');
+
     }
 
     /**
@@ -47,6 +59,8 @@ class StockController extends Controller
     public function show(Stock $stock)
     {
         //
+
+        return view('dashboard.stocks.show', compact('stock'));
     }
 
     /**
@@ -82,4 +96,46 @@ class StockController extends Controller
     {
         //
     }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Stock  $stock
+     * @return \Illuminate\Http\Response
+     */
+    public function addAssetToStock(Stock $stock)
+    {
+        //
+        $action      = request()->input('action', 'add') == 'add' ? 'add' : 'remove';
+        $sign         = $action == 'add' ? '+' : '-';
+        $stockAmount = request()->input('stock', 1);
+
+        if ($stockAmount < 1) {
+            return redirect()->route('stock.index')->with([
+                'danger' => 'No item was added/removed. Amount must be greater than 1.',
+            ]);
+        }
+
+    
+
+        if ($action == 'add') {
+            $stock->increment('current_stock', $stockAmount);
+            $status = $stockAmount . ' item(-s) was added to stock.';
+        }
+
+        if ($action == 'remove') {
+            if ($stock->current_stock - $stockAmount < 0) {
+                return redirect()->route('stock.index')->with([
+                    'danger' => 'Not enough items in stock.',
+                ]);
+            }
+
+            $stock->decrement('current_stock', $stockAmount);
+            $status = $stockAmount . ' item(-s) was removed from stock.';
+        }
+
+        return redirect()->route('stock.index')->with([
+            'warning' => $status,
+        ]);
+    }
+
 }

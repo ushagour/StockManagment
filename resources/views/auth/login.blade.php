@@ -81,9 +81,7 @@
                                                  </button>
                                         </div>
                                     </form>
-                                    <div class="new-account mt-3">
-                                        <p>Don't have an account? <a class="text-primary" href="{{ route('register') }}"> {{ __('Register') }}</a></p>
-                                    </div>
+                                
                                 </div>
                             </div>
                         </div>
