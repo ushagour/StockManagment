@@ -58,9 +58,10 @@ class User extends Authenticatable
         return $this->hasMany(Stock::class);
 
     }
-     protected function team()
+    
+    public function team()
     {
-        return $this->hasOne(team::class);
+        return $this->belongsTo(Team::class, 'team_id');
 
     }
     public function roles()

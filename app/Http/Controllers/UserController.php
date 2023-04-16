@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Role;
+use App\Models\Permission;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -30,7 +33,11 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('dashboard.users.create');
+        $roles = Role::all()->pluck('title', 'id');
+
+        $teams = Team::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('dashboard.users.create', compact('roles', 'teams'));
 
     }
 
@@ -47,7 +54,7 @@ class UserController extends Controller
 
         // dd($request->all());
         $user = User::create($request->all());
-        return redirect()->route('user.index')->with('success','User has been updated successfully.');
+        return redirect()->route('users.index')->with('success','User has been updated successfully.');
 
     }
 
@@ -59,11 +66,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
-    //  echo "<pre>";
-    //     print_r($user);
+   
     
-        return view('dashboard.users.edit', compact('user'));
+          $user->load('roles', 'team');
+        return view('dashboard.users.show', compact('user'));
     }
 
     /**
@@ -75,7 +81,15 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
-        return view('dashboard.users.edit', compact('user'));
+        
+        $roles = Role::all()->pluck('title', 'id');
+
+        $teams = Team::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $user->load('roles', 'team');
+
+    
+        return view('dashboard.users.edit', compact('user','teams','roles'));
 
     }
 

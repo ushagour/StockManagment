@@ -31,10 +31,6 @@ class Team extends Model
         return $date->format('Y-m-d H:i:s');
 
     }
-    protected function users()
-    {
-        return $this->BelongsTo(Team::class);
-
-    }
+  
     
 }

@@ -28,4 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('stock', App\Http\Controllers\StockController::class);
     Route::post('stock/{stock}/addAssetToStock',  [App\Http\Controllers\StockController::class, 'addAssetToStock'])->name('stock.addAssetToStock');
     Route::resource('team', App\Http\Controllers\TeamController::class);
+    Route::resource('transactions', App\Http\Controllers\TransactionController::class);
+    Route::resource('roles', App\Http\Controllers\RolesController::class);
+    Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 });
