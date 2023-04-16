@@ -22,7 +22,8 @@
         
         
         <div class="row">
-            
+            <div style="margin-bottom: 10px;" class="row">
+                <div class="col-lg-12 mt-2">
             @if (\Session::has('alert-success'))
               
 
@@ -52,9 +53,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
                 </button>
             </div>
-
+            
             @endif
-                
+            
+        </div>
+        </div>
             
 
             <div class="col-12">
@@ -83,6 +86,7 @@
                                         <td>{{ $asset->name ?? '' }}</td>
                                         <td>{{ $asset->description ?? '' }}</td>
                                         <td>
+                                        
                                             @switch($asset->danger_level)
                                                 @case(1)
                                                 <span class="badge light badge-success">
@@ -91,8 +95,8 @@
                                                 </span>
                                                     @break
                                                 @case(2)
-                                                <span class="badge light badge-worning">
-                                                    <i class="fa fa-circle text-worning me-1"></i>
+                                                <span class="badge light badge-warning">
+                                                    <i class="fa fa-circle text-warning me-1"></i>
                                                  MEDIUM
                                                 </span>
                                                     @break

@@ -15,9 +15,17 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Auth::routes();
 Route::redirect('/', '/login');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/profile', [App\Http\Controllers\HomeController::class, 'index'])->name('profile');
-Route::resource('user', App\Http\Controllers\UserController::class);
-Route::resource('asset', App\Http\Controllers\AssetController::class);
+Auth::routes(['register' => false]);
+
+
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::get('/profile', [App\Http\Controllers\UserController::class, 'profile'])->name('profile');
+    Route::resource('asset', App\Http\Controllers\AssetController::class);
+    Route::resource('stock', App\Http\Controllers\StockController::class);
+    Route::post('stock/{stock}/addAssetToStock',  [App\Http\Controllers\StockController::class, 'addAssetToStock'])->name('stock.addAssetToStock');
+    Route::resource('team', App\Http\Controllers\TeamController::class);
+});
