@@ -28,6 +28,7 @@ class PermissionsController extends Controller
     public function create()
     {
         //
+        return view('dashboard.permissions.create');
     }
 
     /**
@@ -39,6 +40,11 @@ class PermissionsController extends Controller
     public function store(Request $request)
     {
         //
+        $permission = Permission::create($request->all());
+
+        return redirect()->route('permissions.index')->with('success','Permisssion has been created successfully.');
+        
+       
     }
 
     /**
@@ -47,9 +53,11 @@ class PermissionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Permission $permission)
     {
         //
+        
+        return view('dashboard.permissions.show', compact('permission'));
     }
 
     /**
@@ -58,9 +66,11 @@ class PermissionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Permission $permission)
     {
         //
+        return view('dashboard.permissions.edit', compact('permission'));
+
     }
 
     /**
@@ -70,9 +80,12 @@ class PermissionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePermissionRequest $request, Permission $permission)
     {
         //
+        $permission->update($request->all());
+
+        return redirect()->route('permissions.index')->with('success','Permisssion has been updated successfully.');
     }
 
     /**
@@ -81,8 +94,11 @@ class PermissionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Permission $permission)
     {
         //
+        $permission->delete();
+        return redirect()->route('permissions.index')->with('danger','permission has been deleted successfully.');
+
     }
 }

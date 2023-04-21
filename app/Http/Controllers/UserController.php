@@ -6,8 +6,10 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Permission;
 use App\Models\Team;
-use Illuminate\Http\Request;
 use Auth;
+use App\Http\Requests\User\CreateUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -47,7 +49,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
         //$request->all() return all fileds entred by the user 
 
@@ -100,7 +102,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $User
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         // this is equal to update User set (req) where id = Users ->id
          $user->update($request->all());
@@ -127,12 +129,11 @@ class UserController extends Controller
 
     public function profile()
     {
-        //
-    //  echo "<pre>";
-    //     print_r($user);
-       $id= Auth::id();
-        $user = User::find($id)->get();
-        return view('dashboard.users.edit', compact('user'));
+
+         $id= Auth::id();
+        $user = User::find($id);
+        // dd($user);
+        return view('dashboard.users.app-profile', compact('user'));
     }
 
 }

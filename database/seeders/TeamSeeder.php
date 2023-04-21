@@ -16,7 +16,7 @@ class TeamSeeder extends Seeder
     public function run()
     {
         //
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $randomNumber = rand(100, 200);
            //creating teams of hospital  
             $team = Team::factory()->create([

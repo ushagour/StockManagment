@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
+// use App\Traits\MultiTenantModelTrait TODO  ;
+
 
 class Transaction extends Model
 {
     use HasFactory;
-    use SoftDeletes, MultiTenantModelTrait;
+    use SoftDeletes;
 
     public $table = 'transactions';
 
