@@ -104,25 +104,25 @@
                                                 @endforeach
                                             </td>
                                             <td>
-                                                @can('role_show')
+                                                {{-- @can('role_show') --}}
                                                     <a class="btn btn-xs btn-primary" href="{{ route('roles.show', $role->id) }}">
                                                         {{ trans('global.view') }}
                                                     </a>
-                                                @endcan
+                                                {{-- @endcan --}}
                 
-                                                @can('role_edit')
+                                                {{-- @can('role_edit') --}}
                                                     <a class="btn btn-xs btn-info" href="{{ route('roles.edit', $role->id) }}">
                                                         {{ trans('global.edit') }}
                                                     </a>
-                                                @endcan
+                                                {{-- @endcan --}}
                 
-                                                @can('role_delete')
+                                                {{-- @can('role_delete') --}}
                                                     <form action="{{ route('roles.destroy', $role->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                                     </form>
-                                                @endcan
+                                                {{-- @endcan --}}
                 
                                             </td>
                 

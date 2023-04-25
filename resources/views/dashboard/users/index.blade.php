@@ -66,67 +66,67 @@
               
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example5" class="display" style="min-width: 845px">
+                            <div class="dataTables_length" id="example_length"><label>Show <select name="example_length" aria-controls="example" class=""><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div>
+                            <table id="example5" class="table table-responsive-md display dataTable" style="min-width: 845px" role="grid" aria-describedby="example_info">
                                 <thead>
                                     <tr>
-                                        <th width="10">
-                
-                                            id
+                                        <th style="width:50px;">
+                                            <div class="form-check custom-checkbox checkbox-success check-lg me-3">
+                                                <input type="checkbox" class="form-check-input" id="checkAll" required="">
+                                                <label class="form-check-label" for="checkAll"></label>
+                                            </div>
                                         </th>
-                               
-                                        <th>
-                                       name
-                                        </th>
-                                        <th>
-                                            &nbsp;
-                                        </th>
+                                        <th><strong> NO.</strong></th>
+                                        <th><strong>NAME</strong></th>
+                                        <th><strong>Email</strong></th>
+                                        <th><strong>Date</strong></th>
+                                        <th><strong>Status</strong></th>
+                                        <th><strong>Role</strong></th>
+                                        <th><strong></strong></th>
                                     </tr>
                                 </thead>
+
+
+                          
                                 <tbody>
                                     @foreach($users as $key => $user)
-                                        <tr>
-                      
-                                            <td>
-                                                {{ $user->id ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ $user->name ?? '' }}
-                                            </td>
-                                            <td>
-                                  
-                                                    <a class="btn btn-xs btn-primary" href="{{ route('users.show', $user->id) }}">
-                                                  view
-                                                    </a>
-                                     
-                
-                                        
-                                                    <a class="btn btn-xs btn-info" href="{{ route('users.edit', $user->id) }}">
-                                                     edit
-                                                    </a>
-                                       
-                
-                                    
-                                         
-                                                    <a class="btn btn-xs btn-danger" href="{{ route('users.destroy', $user->id) }}" onclick="event.preventDefault();
-                                                        DeleteMe()">
-                                                                                                 <span> Delete</span>
-       
-                                           
-                                        </a>
-       
-                                        <form id="delete-form"  action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-none">
-                                           <input name="_method" type="hidden" value="DELETE">
-                                            @csrf
-                                        </form>
 
-                
-                                            </td>
-                
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check custom-checkbox checkbox-success check-lg me-3">
+                                                <input type="checkbox" class="form-check-input" id="customCheckBox2" required="">
+                                                <label class="form-check-label" for="customCheckBox2"></label>
+                                            </div>
+                                        </td>
+                                        <td><strong>{{ $user->id ?? '' }}</strong></td>
+                                        <td><div class="d-flex align-items-center"><img src="images/avatar/1.jpg" class="rounded-lg me-2" width="24" alt=""> <span class="w-space-no"> {{ $user->name ?? '' }}</span></div></td>
+                                        <td> {{ $user->email ?? '' }}</td>
+                                        <td> {{ $user->created_at ?? '' }}</td>
+                                        <td><div class="d-flex align-items-center"><i class="fa fa-circle text-success me-1"></i> Successful</div></td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
+                                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-primary shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                <a href="{{ route('users.destroy', $user->id) }}" onclick="event.preventDefault();
+                                                    DeleteMe()" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                            <form id="delete-form"  action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-none">
+                                                <input name="_method" type="hidden" value="DELETE">
+                                                 @csrf
+                                             </form>
+                                        </td>
+                                    </tr>
+                                  
+                                
                                     @endforeach
+
                                 </tbody>
                             </table>
                         </div>
+
+
+
+                        
                     </div>
                 </div>
             </div>
