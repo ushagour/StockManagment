@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Permission;
-
+use App\Models\Permission;
 use App\Models\Role;
 use Gate;
    
@@ -33,6 +32,9 @@ class RolesController extends Controller
     public function create()
     {
         //
+        $permissions = Permission::all()->pluck('title', 'id');
+
+        return view('dashboard.roles.create', compact('permissions'));
     }
 
     /**
@@ -44,6 +46,11 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         //
+        $role = Role::create($request->all());
+
+        $role->permissions()->sync($request->input('permissions', []));
+
+        return redirect()->route('roles.index')->with('success','role has been created successfully.');
     }
 
     /**
@@ -52,9 +59,12 @@ class RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Role $role)
     {
         //
+        $role->load('permissions');
+
+        return view('dashboard.roles.show', compact('role'));
     }
 
     /**
@@ -63,9 +73,16 @@ class RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
         //
+        $permissions = Permission::all()->pluck('title', 'id');//pluck just the id and name we dont need outher fields
+        // echo "<pre>";
+        // print_r($permissions);
+
+        $role->load('permissions');
+
+        return view('dashboard.roles.edit', compact('permissions', 'role'));
     }
 
     /**
@@ -75,9 +92,13 @@ class RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Role $role)
     {
         //
+        $role->update($request->all());
+        $role->permissions()->sync($request->input('permissions', []));
+
+        return redirect()->route('roles.index')->with('warning','role has been updated successfully.');
     }
 
     /**
@@ -86,8 +107,11 @@ class RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
         //
+        $role->delete();
+
+        return back()->with('danger','role has been deleted successfully.');
     }
 }

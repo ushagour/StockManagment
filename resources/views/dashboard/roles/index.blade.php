@@ -71,10 +71,9 @@
                                     <tr>
                                         <th width="10">
                 
-                                        </th>
-                                        <th>
                                             {{ trans('cruds.role.fields.id') }}
                                         </th>
+                                 
                                         <th>
                                             {{ trans('cruds.role.fields.title') }}
                                         </th>
@@ -89,9 +88,7 @@
                                 <tbody>
                                     @foreach($roles as $key => $role)
                                         <tr data-entry-id="{{ $role->id }}">
-                                            <td>
-                
-                                            </td>
+                                     
                                             <td>
                                                 {{ $role->id ?? '' }}
                                             </td>
@@ -109,19 +106,27 @@
                                                         {{ trans('global.view') }}
                                                     </a>
                                                 {{-- @endcan --}}
-                
+                                       
+
                                                 {{-- @can('role_edit') --}}
-                                                    <a class="btn btn-xs btn-info" href="{{ route('roles.edit', $role->id) }}">
+                                                    <a class="btn btn-xs btn-info m-1" href="{{ route('roles.edit', $role->id) }}">
                                                         {{ trans('global.edit') }}
                                                     </a>
                                                 {{-- @endcan --}}
-                
+                                           
+
                                                 {{-- @can('role_delete') --}}
-                                                    <form action="{{ route('roles.destroy', $role->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                                    </form>
+                                                <a class="btn btn-xs btn-danger" href="{{ route('roles.destroy', $role->id) }}" onclick="event.preventDefault();
+                                                    DeleteMe()">
+                                                                                             <span> Delete</span>
+   
+                                       
+                                    </a>
+   
+                                    <form id="delete-form"  action="{{ route('roles.destroy', $role->id) }}" method="POST" class="d-none">
+                                       <input name="_method" type="hidden" value="DELETE">
+                                        @csrf
+                                    </form>
                                                 {{-- @endcan --}}
                 
                                             </td>

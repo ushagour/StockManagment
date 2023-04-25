@@ -50,10 +50,10 @@
                                                             <div class="row">
                                                                 <div class="mb-3 col-md-6">
                                                                     <label class="form-label">Team</label>
-                                                                    <input type="text" class="form-control" value="{{$user->team->name}}">
+                                                                    <input type="text" class="form-control" value="{{$user->team->name ?? ''}}">
                                                                 </div>
                                                                 <div class="mb-3 col-md-4">
-                                                                    <label class="form-label">Permissions</label>
+                                                                    <label class="form-label">Role</label>
                                                                     <select id="inputState" class="default-select form-control wide" style="display: none;">                                                                        <option selected="">Choose...</option>
                                                                         @foreach($user->roles as $key => $roles)
                                                                         <option selected="">{{ $roles->title }}</option>

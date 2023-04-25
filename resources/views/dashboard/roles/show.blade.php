@@ -13,7 +13,7 @@
 				<div class="col-xl-12 col-lg-12 col-sm-12">
                     <div class="card">
                         <div class="card-header border-0 pb-0">
-                            <a class="btn btn-default" href="{{ route('users.index') }}">
+                            <a class="btn btn-default" href="{{ route('roles.index') }}">
                                 back to list
                             </a>
                         </div>
@@ -22,42 +22,42 @@
                                 <tbody>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.user.fields.id') }}
+                                            {{ trans('cruds.role.fields.id') }}
                                         </th>
                                         <td>
-                                            {{ $user->id }}
+                                            {{ $role->id }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.user.fields.name') }}
+                                            {{ trans('cruds.role.fields.name') }}
                                         </th>
                                         <td>
-                                            {{ $user->name }}
+                                            {{ $role->name }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.user.fields.email') }}
+                                            {{ trans('cruds.role.fields.email') }}
                                         </th>
                                         <td>
-                                            {{ $user->email }}
+                                            {{ $role->email }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.user.fields.email_verified_at') }}
+                                            {{ trans('cruds.role.fields.email_verified_at') }}
                                         </th>
                                         <td>
-                                            {{ $user->email_verified_at }}
+                                            {{ $role->email_verified_at }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.user.fields.roles') }}
+                                            {{ trans('cruds.role.fields.roles') }}
                                         </th>
                                         <td>
-                                            @foreach($user->roles as $key => $roles)
+                                            @foreach($role->permissions as $key => $roles)
                                                 <span class="label label-info">{{ $roles->title }}</span>
                                             @endforeach
                                         </td>

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Team;
 use App\Models\Role;
 use App\Models\Permission;
-use App\Models\Team;
 use Auth;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
@@ -122,7 +122,7 @@ class UserController extends Controller
         //
         
         $user->delete();
-        return redirect()->route('user.index')->with('danger','User has been deleted successfully.');
+        return redirect()->route('users.index')->with('danger','User has been deleted successfully.');
 
 
     }
