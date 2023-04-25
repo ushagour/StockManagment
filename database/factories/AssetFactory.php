@@ -18,7 +18,8 @@ class AssetFactory extends Factory
             //
         
         'name' => $this->faker->word,
-        'description' => $this->faker->word
+        'description' => $this->faker->word,
+        'danger_level'=> Str::random(10),
 
         ];
     }

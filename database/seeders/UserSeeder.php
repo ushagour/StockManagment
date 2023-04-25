@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             [
                 'id'             => 1,
                 'name'           => 'Admin',
+                'image'           => '1.png',
                 'email'          => 'admin@admin.com',
                 'password'       => '$2y$10$KjopsXqbCq1NrrGYJe7rr./68LzZSGCas5XxBHHbG.9AF4mc3GPR.'//(password)           
              ],
