@@ -10,27 +10,43 @@
 					<span class="nav-text">Dashboard</span>
 					</a>
 				</li>
-					<li><a href="{{route("asset.index")}}" class="" aria-expanded="false">
+				@can('asset_access')
+					<li>
+						<a href="{{route("asset.index")}}" class="" aria-expanded="false">
 					<i class="fa-fw fas fa-cogs nav-icon"></i>
 						<span class="nav-text">Assets</span>
 					</a>
 				</li>
+				@endcan
+				@can('stock_access')
+
 				<li><a href="{{route("stock.index")}}" class="" aria-expanded="false">
 					<i class="fas fa-boxes"></i>					
 					<span class="nav-text">Stocks</span>
 					</a>
 				</li>
+				@endcan
+
+				@can('transaction_access')
+
 				<li><a href="{{route("transactions.index")}}" class="" aria-expanded="false">
 					<i class="fas fa-file-alt"></i>						
 					<span class="nav-text">Transactions</span>
 					</a>
 				</li>
+				@endcan
+
+				@admin
 				<li><a href="{{route("team.index")}}" class="" aria-expanded="false">
 					<i class="fa fa-solid fa-hospital"></i>
 						<span class="nav-text">Hospitals</span>
 					</a>
 				</li>
-				<li><a class="has-arrow " href="javascript:void()" aria-expanded="false">
+
+
+				<li>
+
+					<a class="has-arrow " href="javascript:void()" aria-expanded="false">
 					<i class="fas fa-user-check"></i>
 					<span class="nav-text">User Management</span>
 				</a>
@@ -40,7 +56,8 @@
 					<li><a href="{{route("users.index")}}">liste of users </a></li>
 				
 				</ul>
-
+			</li>
+			@endadmin
 		
 
            
