@@ -6,6 +6,9 @@ use App\Models\Stock;
 use App\Models\Asset;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class StockController extends Controller
 {
@@ -15,7 +18,9 @@ class StockController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {        
+        abort_if(Gate::denies('stock_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         //
         $stocks = Stock::all();
         return view('dashboard.stocks.index', compact('stocks'));
@@ -27,7 +32,8 @@ class StockController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {         abort_if(Gate::denies('stock_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         //
         $assets = Asset::all()->pluck('name', 'id')->prepend("pleaseSelect", '');
         $teams = Team::all()->pluck('name', 'id')->prepend("pleaseSelect", '');
@@ -59,6 +65,7 @@ class StockController extends Controller
     public function show(Stock $stock)
     {
         //
+     abort_if(Gate::denies('stock_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return view('dashboard.stocks.show', compact('stock'));
     }
@@ -70,7 +77,18 @@ class StockController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Stock $stock)
-    {
+    {             
+        
+        abort_if(Gate::denies('stock_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+       
+        $assets = Asset::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        $stock->load('asset', 'team');
+
+       
+        return view('dashboard.roles.edit',  compact('assets', 'stock'));
+       
+
         //
     }
 
@@ -84,6 +102,9 @@ class StockController extends Controller
     public function update(Request $request, Stock $stock)
     {
         //
+        $stock->update($request->all());
+        return redirect()->route('stock.index')->with('warning','stock has been updated successfully.');
+
     }
 
     /**
@@ -93,49 +114,13 @@ class StockController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Stock $stock)
-    {
+    {      
+          abort_if(Gate::denies('stock_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $stock->delete();
+
+        return back()->with('danger','stock has been deleted successfully.');
         //
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Stock  $stock
-     * @return \Illuminate\Http\Response
-     */
-    public function addAssetToStock(Stock $stock)
-    {
-        //
-        $action      = request()->input('action', 'add') == 'add' ? 'add' : 'remove';
-        $sign         = $action == 'add' ? '+' : '-';
-        $stockAmount = request()->input('stock', 1);
-
-        if ($stockAmount < 1) {
-            return redirect()->route('stock.index')->with([
-                'danger' => 'No item was added/removed. Amount must be greater than 1.',
-            ]);
-        }
-
-    
-
-        if ($action == 'add') {
-            $stock->increment('current_stock', $stockAmount);
-            $status = $stockAmount . ' item(-s) was added to stock.';
-        }
-
-        if ($action == 'remove') {
-            if ($stock->current_stock - $stockAmount < 0) {
-                return redirect()->route('stock.index')->with([
-                    'danger' => 'Not enough items in stock.',
-                ]);
-            }
-
-            $stock->decrement('current_stock', $stockAmount);
-            $status = $stockAmount . ' item(-s) was removed from stock.';
-        }
-
-        return redirect()->route('stock.index')->with([
-            'warning' => $status,
-        ]);
-    }
+  
 
 }

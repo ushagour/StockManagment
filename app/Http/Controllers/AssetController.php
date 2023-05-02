@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Asset;
 use Illuminate\Http\Request;
 use Session;
+use Gate;
+
 use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\HttpFoundation\Response;
+
 
 
 class AssetController extends Controller
@@ -18,6 +22,10 @@ class AssetController extends Controller
     public function index()
     {
         //
+        if (! Gate::allows('asset_access')) {
+            return abort(401);
+        }
+        // abort_if(Gate::denies('asset_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $assets = Asset::all();
 
@@ -32,6 +40,8 @@ class AssetController extends Controller
     public function create()
     {
         //
+        abort_if(Gate::denies('asset_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('dashboard.assets.create');
 
     }
@@ -62,7 +72,8 @@ class AssetController extends Controller
     public function show(Asset $asset)
     {
         //
-   
+        abort_if(Gate::denies('asset_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('dashboard.assets.show', compact('asset'));
     }
 
@@ -75,6 +86,8 @@ class AssetController extends Controller
     public function edit(Asset $asset)
     {
         //
+        abort_if(Gate::denies('asset_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('dashboard.assets.edit', compact('asset'));
 
     }
@@ -104,7 +117,8 @@ class AssetController extends Controller
     public function destroy(Asset $asset)
     {
         //
-        
+        abort_if(Gate::denies('asset_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $asset->delete();
         return redirect()->route('asset.index')->with('danger','asset has been deleted successfully.');
 

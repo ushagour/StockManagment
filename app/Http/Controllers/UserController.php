@@ -10,6 +10,8 @@ use Auth;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use Illuminate\Http\Request;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -19,8 +21,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $users = User::all();
 
@@ -33,7 +34,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         //
         $roles = Role::all()->pluck('title', 'id');
 
@@ -69,7 +71,8 @@ class UserController extends Controller
     public function show(User $user)
     {
    
-    
+            abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
           $user->load('roles', 'team');
         return view('dashboard.users.show', compact('user'));
     }
@@ -83,7 +86,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
-        
+                abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $roles = Role::all()->pluck('title', 'id');
 
         $teams = Team::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -120,7 +124,8 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
-        
+     abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $user->delete();
         return redirect()->route('users.index')->with('danger','User has been deleted successfully.');
 

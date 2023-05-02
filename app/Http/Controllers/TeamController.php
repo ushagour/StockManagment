@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Session;
 use Illuminate\Support\Facades\Redirect;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
 class TeamController extends Controller
 {
@@ -15,7 +16,7 @@ class TeamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {          abort_if(Gate::denies('team_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         //
 
         $teams = Team::all();
@@ -29,7 +30,7 @@ class TeamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {         abort_if(Gate::denies('team_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         //
         return view('dashboard.teams.create');
 
@@ -61,7 +62,8 @@ class TeamController extends Controller
     public function show(Team $team)
     {
         //
-   
+        abort_if(Gate::denies('team_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return view('dashboard.teams.show', compact('team'));
     }
 
@@ -72,7 +74,8 @@ class TeamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Team $team)
-    {
+    {        abort_if(Gate::denies('team_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         //
         return view('dashboard.teams.edit', compact('team'));
 
@@ -103,7 +106,8 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         //
-        
+       abort_if(Gate::denies('team_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $team->delete();
         return redirect()->route('team.index')->with('danger','team has been deleted successfully.');
 

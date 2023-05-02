@@ -7,6 +7,8 @@ use App\Models\Transaction;
 use App\Models\Asset;
 use App\Models\User;
 use App\Models\Stock;
+use Gate;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class TransactionController extends Controller
@@ -18,6 +20,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('transaction_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         //
         $transactions = Transaction::all();
 
@@ -31,6 +35,8 @@ class TransactionController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('transaction_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         //
         $assets = Asset::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -48,6 +54,9 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         //
+        $transaction = Transaction::create($request->all());
+
+        return redirect()->route('transactions.index');
     }
 
     /**
@@ -58,8 +67,10 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
+
         //
-        
+        abort_if(Gate::denies('transaction_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $transaction->load('asset', 'team', 'user');
 
         return view('dashboard.transactions.show', compact('transaction'));
@@ -74,6 +85,8 @@ class TransactionController extends Controller
     public function edit($id)
     {
         //
+        abort_if(Gate::denies('transaction_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $assets = Asset::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -90,9 +103,12 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Transaction $transaction)
     {
         //
+        $transaction->update($request->all());
+
+        return redirect()->route('transactions.index');
     }
 
     /**
@@ -101,9 +117,12 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(Transaction $transaction)
+    {//
+        abort_if(Gate::denies('transaction_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $transaction->delete();
+        return redirect()->route('transaction.index')->with('danger','transaction has been deleted successfully.');
+
     }
      /**
      * @param Stock $stock

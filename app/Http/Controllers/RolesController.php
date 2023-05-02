@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Permission;
 use App\Models\Role;
 use Gate;
+use Symfony\Component\HttpFoundation\Response;
+
    
 
 class RolesController extends Controller
@@ -18,7 +20,9 @@ class RolesController extends Controller
     public function index()
     {
         //
-        
+                 
+    abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
           $roles = Role::all();
 
         return view('dashboard.roles.index', compact('roles'));
@@ -30,7 +34,8 @@ class RolesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {         abort_if(Gate::denies('role_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         //
         $permissions = Permission::all()->pluck('title', 'id');
 
@@ -60,7 +65,8 @@ class RolesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Role $role)
-    {
+    {     abort_if(Gate::denies('role_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         //
         $role->load('permissions');
 
@@ -74,7 +80,8 @@ class RolesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Role $role)
-    {
+    {               abort_if(Gate::denies('role_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         //
         $permissions = Permission::all()->pluck('title', 'id');//pluck just the id and name we dont need outher fields
         // echo "<pre>";
@@ -97,8 +104,6 @@ class RolesController extends Controller
         //
         $role->update($request->all());
         $role->permissions()->sync($request->input('permissions', []));
-
-        return redirect()->route('roles.index')->with('warning','role has been updated successfully.');
     }
 
     /**
@@ -108,7 +113,8 @@ class RolesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Role $role)
-    {
+    {        abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         //
         $role->delete();
 
