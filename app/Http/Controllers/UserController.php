@@ -141,5 +141,24 @@ class UserController extends Controller
         return view('dashboard.users.app-profile', compact('user'));
     }
 
-}
+    public function upload(Request $request)
+    {
+        // Validate the uploaded file
+        $request->validate([
+            'file' => 'required|file|max:1024',
+        ]);
 
+        // Get the uploaded file
+        $file = $request->file('file');
+
+        // Generate a unique filename for the uploaded file
+        $filename = time() . '_' . $file->getClientOriginalName();
+
+        // Move the uploaded file to the storage directory
+        $file->storeAs('public/files', $filename);
+
+        // Redirect back to the form with a success message
+        return redirect()->back()->with('alert-success', 'File uploaded successfully.');
+    }
+
+}

@@ -102,11 +102,18 @@
                                         <td><div class="d-flex align-items-center"><img src="images/avatar/1.jpg" class="rounded-lg me-2" width="24" alt=""> <span class="w-space-no"> {{ $user->name ?? '' }}</span></div></td>
                                         <td> {{ $user->email ?? '' }}</td>
                                         <td> {{ $user->created_at ?? '' }}</td>
-                                        <td><div class="d-flex align-items-center"><i class="fa fa-circle text-success me-1"></i> Successful</div></td>
+                                        <td><div class="d-flex align-items-center"> 
+                                            @if ($user->state)
+                                            <i class="fa fa-circle text-success me-1"></i> active
+                                            @else
+                                            <i class="fa fa-circle text-danger me-1"></i> inactive
+                                            @endif
+                                            
+                                         </div></td>
                                         <td>
                                             <div class="d-flex">
                                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-primary shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-primary shadow btn-xs sharp"><i class="fa fa-eye"></i></a>
                                                 <a href="{{ route('users.destroy', $user->id) }}" onclick="event.preventDefault();
                                                     DeleteMe()" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
                                             </div>
