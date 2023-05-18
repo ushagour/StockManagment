@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 //protected routes 
+Route::apiResource('assets', App\Http\Controllers\Api\V1\Admin\AssetsApiController::class);
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'middleware' => ['auth:sanctum']], function () {
 
     Route::apiResource('permissions', App\Http\Controllers\Api\V1\Admin\PermissionsApiController::class);
@@ -32,7 +33,6 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'middleware' => ['auth:sanctum']
 
 
     // Assets
-    Route::apiResource('assets', App\Http\Controllers\Api\V1\Admin\AssetsApiController::class);
 
     // Teams
 
